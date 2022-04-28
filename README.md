@@ -20,7 +20,7 @@ If the function is asynchronous this can be done by putting the async tag before
   }
 ```
   
-## 
+## Functions used in Multiple locations
 
 An annotated function should only be called by a HTML Element. Functions that are also used in the Component need a seperate function that is called in the uicall_fun
 
