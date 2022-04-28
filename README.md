@@ -8,7 +8,7 @@ An example for this structure is:
 
 ```
   @UIBaseUserCalledFunction()
-    uicall_function(){
+		uicall_function(){
   }
 ```
   
@@ -16,7 +16,7 @@ If the function is asynchronous this can be done by putting the async tag before
 
 ```
   @UIBaseUserCalledFunction()
-	  async uicall_function(){
+		async uicall_function(){
   }
 ```
   
@@ -26,8 +26,8 @@ An annotated function should only be called by a HTML Element. Functions that ar
 
 ```
   @UIBaseUserCalledFunction()
-	uicall_function(){
-    this.function()
+		uicall_function(){
+		this.function()
   }
   
   function(){
