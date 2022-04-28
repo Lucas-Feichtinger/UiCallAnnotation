@@ -10,7 +10,11 @@
 var Flag_UICall_IsRunning : boolean = false
 var Timeout_UICall_IsRunning : any = null // TIMEOUT
 // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-export function UIBaseUserCalledFunction() {
+export function UIBaseUserCalledFunction(options?:{
+		ignoreIsRunning?:boolean
+})
+{
+	options = options ?? {}
 	return function (
 		targetClass: any,
 		_propertyKey: string,
@@ -21,11 +25,12 @@ export function UIBaseUserCalledFunction() {
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     const showError = (err) => {
 			console.log("UICallError:",err)
-			TODO: Display Error to User
+			//TODO: Display Error to User
     }
     // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
     const finalize = () => {
-			// TODO: Hide Loading component from User			
+			// hide ladekreis
+			Services.LoadingService.hideLoadingCirlce()
 			Timeout_UICall_IsRunning = setTimeout(() => {
 			 	Flag_UICall_IsRunning = false},150)
     }
@@ -44,7 +49,7 @@ export function UIBaseUserCalledFunction() {
 		descriptor.value = function(...args:any[]){
       try{
 				// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-				if(Flag_UICall_IsRunning) return
+				if(Flag_UICall_IsRunning && !options.ignoreIsRunning) return
 				Flag_UICall_IsRunning = true
 				// WICHTIG: Timeout muss zurueckgesetzt werden
 				clearTimeout(Timeout_UICall_IsRunning)
@@ -59,7 +64,7 @@ export function UIBaseUserCalledFunction() {
               resolve(val)
             }).catch(err => {
               //reject(err)
-							// TODO: ggf. spaeter den Fehler in das Log schreiben!
+							// TODO: ggf. spaeter den Fehler in das Log schreiben!?
               showError(err)
             }).finally(_=> {
               finalize()
